@@ -2,7 +2,8 @@ from game_of_life import GameOfLife
 import pygame as pg
 
 BACKGROUND_COLOR = (213, 213, 213)  # Light grey
-
+NUM_ROWS, NUM_COLUMNS = 3000, 3000  # Number of rows and columns in the grid
+TIME_BETWEEN_UPDATES = 200  # Time between each update in milliseconds
 
 def main() -> None:
     """
@@ -15,14 +16,11 @@ def main() -> None:
     None
     """
 
-    # Number of rows and columns in the grid
-    num_rows, num_columns = 300, 300
-
     # Screen width and height
     screen_width, screen_height = 200, 250
 
     # Create and initialize the grid
-    grid = GameOfLife(num_rows, num_columns)
+    grid = GameOfLife(NUM_ROWS, NUM_COLUMNS)
     grid.initialize_grid_random()
 
     # Initialize pygame, create the screen and the clock
@@ -36,9 +34,7 @@ def main() -> None:
     grid.draw_surface(screen, screen_width, screen_height)
 
     time_since_last_update = 0  # time since the last update in milliseconds
-    time_between_update = 200  # number of milliseconds between each update
-
-    running = True
+    running = True  # Boolean to keep track of whether the game is running
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -47,7 +43,7 @@ def main() -> None:
             elif event.type == pg.VIDEORESIZE:
                 # Resize the screen
                 screen_width, screen_height = event.w, event.h
-        if time_since_last_update >= time_between_update:
+        if time_since_last_update >= TIME_BETWEEN_UPDATES:
             # Update the grid and draw it to the screen
             time_since_last_update = 0
             grid.update_status()
